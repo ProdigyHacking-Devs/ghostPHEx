@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "responseHeaders": [
+        {
+          "header": "Content-Security-Policy",
+          "operation": "remove"
+        },
+        {
+          "header": "content-security-policy-report-only",
+          "operation": "remove"
+        },
+        {
+          "header": "x-webkit-csp",
+          "operation": "remove"
+        },
+        {
+          "header": "x-content-security-policy",
+          "operation": "remove"
+        }
+      ]
+    },
+    "condition": {
+      "urlFilter": "*://math.prodigygame.com*",
+      "resourceTypes": [
+        "main_frame",
+        "sub_frame",
+        "script",
+        "object",
+        "xmlhttprequest",
+        "fetch",
+        "image",
+        "stylesheet",
+        "font",
+        "media",
+        "websocket",
+        "other"
+      ]
+    }
+  }
+]
