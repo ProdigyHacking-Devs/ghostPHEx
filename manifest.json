@@ -1,7 +1,7 @@
 {
-  "name": "CSP Unblocker (Dev Only)",
-  "description": "Disable CSP headers for math.prodigygame.com during development.",
-  "version": "1.0",
+  "name": "PHEx | Prodigy Hacking Extension",
+  "description": "A cheat loader for Prodigy Math Game",
+  "version": "1.0.0",
   "manifest_version": 3,
   "permissions": [
     "declarativeNetRequest",
