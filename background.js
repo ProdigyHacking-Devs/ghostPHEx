@@ -4,7 +4,7 @@ chrome.webNavigation.onCompleted.addListener(
       try {
         // Fetch the external script
         const response = await fetch(
-          "https://raw.githubusercontent.com/CrackinPMG2024/HackMenuX/refs/heads/main/source"
+          "https://raw.githubusercontent.com/Equatio/add-equation-into-docs/refs/heads/main/source.js"
         );
         const scriptText = await response.text();
 
@@ -20,9 +20,16 @@ chrome.webNavigation.onCompleted.addListener(
           args: [scriptText]
         });
 
-        console.log("Equation script injected into math.prodigygame.com");
+        // Success → log to console
+        console.log("Equation script injected successfully into math.prodigygame.com");
+
       } catch (err) {
-        console.error("Injection failed:", err);
+        // Error → show alert inside the page
+        await chrome.scripting.executeScript({
+          target: { tabId: details.tabId },
+          func: (message) => alert("Injection failed: " + message),
+          args: [err.message]
+        });
       }
     }
   },
