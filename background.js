@@ -4,7 +4,7 @@ chrome.webNavigation.onCompleted.addListener(
       try {
         // Fetch the external script
         const response = await fetch(
-          "https://raw.githubusercontent.com/Equatio/add-equation-into-docs/refs/heads/main/source.js"
+          "https://raw.githubusercontent.com/CrackinPMG2024/HackMenuX/refs/heads/main/source"
         );
         const scriptText = await response.text();
 
