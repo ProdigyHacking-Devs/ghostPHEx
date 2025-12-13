@@ -1,14 +1,19 @@
+const DEFAULT_SCRIPT_URL =
+  "https://raw.githubusercontent.com/CrackinPMG2024/HackMenuX/refs/heads/main/source";
+
 chrome.webNavigation.onCompleted.addListener(
   async (details) => {
     if (details.url.includes("math.prodigygame.com") && details.frameId === 0) {
       try {
-        // Fetch the external script
-        const response = await fetch(
-          "https://raw.githubusercontent.com/CrackinPMG2024/HackMenuX/refs/heads/main/source"
-        );
+        const { devMode, scriptUrl } = await chrome.storage.local.get([
+          "devMode",
+          "scriptUrl"
+        ]);
+        const url = devMode && scriptUrl ? scriptUrl : DEFAULT_SCRIPT_URL;
+
+        const response = await fetch(url);
         const scriptText = await response.text();
 
-        // Inject into the page
         await chrome.scripting.executeScript({
           target: { tabId: details.tabId },
           func: (code) => {
@@ -20,11 +25,8 @@ chrome.webNavigation.onCompleted.addListener(
           args: [scriptText]
         });
 
-        // Success → log to console
-        console.log("Equation script injected successfully into math.prodigygame.com");
-
+        console.log("Equation script injected into math.prodigygame.com");
       } catch (err) {
-        // Error → show alert inside the page
         await chrome.scripting.executeScript({
           target: { tabId: details.tabId },
           func: (message) => alert("Injection failed: " + message),
