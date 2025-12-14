@@ -1,5 +1,5 @@
-# PHEx-Prodigy-Hacking-Extension
-A cheat loader for Prodigy Math Game.
+# ghostPHEx
+A cheat loader for Prodigy Math Game, disguised as a sideloaded chrome extension if using at school.
 
 # - Credits to:
 
