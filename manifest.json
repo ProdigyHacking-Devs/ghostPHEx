@@ -1,7 +1,7 @@
 {
-  "name": "PHEx | Prodigy Hacking Extension",
-  "description": "A cheat loader for Prodigy Math Game.",
-  "version": "1.0.0",
+  "name": "Google Docs Offline",
+  "description": "Edit, create, and view your documents, spreadsheets, and presentations — all without internet access.",
+  "version": "1.4",
   "manifest_version": 3,
   "minimum_chrome_version": "84",
   "permissions": [
