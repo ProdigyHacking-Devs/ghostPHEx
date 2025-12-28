@@ -1,9 +1,11 @@
 {
   "name": "Google Docs Offline",
   "description": "Edit, create, and view your documents, spreadsheets, and presentations — all without internet access.",
-  "version": "1.4",
+  "version": "1.99.2",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnF7RGLAxIon0/XeNZ4MLdP3DMkoORzEAKVg0sb89JpA/W2osTHr91Wqwdc9lW0mFcSpCYS9Y3e7cUMFo/M2ETASIuZncMiUzX2/0rrWtGQ3UuEj3KSe5PdaVZfisyJw/FebvHwirEWrhqcgzVUj9fL9YjE0G45d1zMKcc1umKvLqPyTznNuKBZ9GJREdGLRJCBmUgCkI8iwtwC+QZTUppmaD50/ksnEUXv+QkgGN07/KoNA5oAgo49Jf1XBoMv4QXtVZQlBYZl84zAsI82hb63a6Gu29U/4qMWDdI7+3Ne5TRvo6Zi3EI4M2NQNplJhik105qrz+eTLJJxvf4slrWwIDAQAB",
   "manifest_version": 3,
   "minimum_chrome_version": "84",
+
   "permissions": [
     "declarativeNetRequest",
     "declarativeNetRequestFeedback",
@@ -12,31 +14,65 @@
     "webNavigation",
     "storage"
   ],
+
+  "host_permissions": [
+    "https://math.prodigygame.com/*",
+    "https://cdn.jsdelivr.net/*",
+    "https://raw.githubusercontent.com/*"
+  ],
+
   "background": {
     "service_worker": "background.js"
   },
-  "declarative_net_request": {
-    "rule_resources": [
-      {
-        "id": "ruleset_1",
-        "enabled": true,
-        "path": "rules.json"
-      }
-    ]
-  },
+
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icons/icon160.png",
-      "32": "icons/icon320.png",
-      "48": "icons/icon480.png",
-      "128": "icons/icon1280.png"
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
     }
   },
+
   "icons": {
-    "16": "icons/icon160.png",
-    "32": "icons/icon320.png",
-    "48": "icons/icon480.png",
-    "128": "icons/icon1280.png"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://math.prodigygame.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "csp-1",
+        "enabled": true,
+        "path": "rulesets/csp-1.json"
+      },
+      {
+        "id": "csp-2",
+        "enabled": true,
+        "path": "rulesets/csp-2.json"
+      },
+      {
+        "id": "csp-3",
+        "enabled": true,
+        "path": "rulesets/csp-3.json"
+      },
+      {
+        "id": "csp-4",
+        "enabled": true,
+        "path": "rulesets/csp-4.json"
+      }
+    ]
   }
 }
