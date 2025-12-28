@@ -3,36 +3,42 @@ const DEFAULT_SCRIPT_URL =
 
 chrome.webNavigation.onCompleted.addListener(
   async (details) => {
-    if (details.url.includes("math.prodigygame.com") && details.frameId === 0) {
-      try {
-        const { devMode, scriptUrl } = await chrome.storage.local.get([
-          "devMode",
-          "scriptUrl"
-        ]);
-        const url = devMode && scriptUrl ? scriptUrl : DEFAULT_SCRIPT_URL;
+    if (!details.url.includes("math.prodigygame.com")) return;
 
-        const response = await fetch(url);
-        const scriptText = await response.text();
+    try {
+      const { devMode, scriptUrl } = await chrome.storage.local.get([
+        "devMode",
+        "scriptUrl"
+      ]);
 
-        await chrome.scripting.executeScript({
-          target: { tabId: details.tabId },
-          func: (code) => {
-            const s = document.createElement("script");
-            s.textContent = code;
-            document.documentElement.appendChild(s);
-            s.remove();
-          },
-          args: [scriptText]
-        });
-
-        console.log("Equation script injected into math.prodigygame.com");
-      } catch (err) {
-        await chrome.scripting.executeScript({
-          target: { tabId: details.tabId },
-          func: (message) => alert("Injection failed: " + message),
-          args: [err.message]
-        });
+      // If dev mode is ON and custom script exists, content.js will inject instead
+      if (devMode && scriptUrl) {
+        console.log("[Equatio] DevMode active — content.js will inject custom script.");
+        return;
       }
+
+      console.log("[Equatio] Injecting default script:", DEFAULT_SCRIPT_URL);
+
+      const response = await fetch(DEFAULT_SCRIPT_URL);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const scriptText = await response.text();
+
+      await chrome.scripting.executeScript({
+        target: { tabId: details.tabId, allFrames: true },
+        world: "MAIN",
+        func: (code) => {
+          const s = document.createElement("script");
+          s.textContent = code;
+          document.documentElement.appendChild(s);
+          s.remove();
+        },
+        args: [scriptText]
+      });
+
+      console.log("[Equatio] Default script injected into ALL frames (MAIN world).");
+    } catch (err) {
+      console.error("[Equatio] Injection failed:", err);
     }
   },
   { url: [{ hostContains: "math.prodigygame.com" }] }
