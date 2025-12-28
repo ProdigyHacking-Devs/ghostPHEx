@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const scriptUrlInput = document.getElementById("scriptUrl");
   const saveButton = document.getElementById("saveUrl");
 
-  // Load saved settings
   chrome.storage.local.get(["devMode", "scriptUrl"], (data) => {
     if (data.devMode) {
       devModeToggle.checked = true;
@@ -15,14 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Toggle developer mode
   devModeToggle.addEventListener("change", () => {
     const enabled = devModeToggle.checked;
     devOptions.style.display = enabled ? "block" : "none";
     chrome.storage.local.set({ devMode: enabled });
   });
 
-  // Save custom URL
   saveButton.addEventListener("click", () => {
     const url = scriptUrlInput.value.trim();
     if (url) {
